@@ -1,0 +1,36 @@
+all:
+  vars:
+    ansible_user : coding
+    runner_prod: []
+  hosts:
+    server-riadh:
+      ansible_host : 10.160.24.229
+      runner_prod:
+        - name: '{{ inventory_hostname }}-prod'
+          executor: shell
+          run_untagged: false
+          tags:
+            - prod
+
+    server-grace:
+      ansible_host : 10.160.24.152
+
+    server-sabiha:
+      ansible_host : 172.20.0.1 #10.160.32.28
+      runner_prod:
+        - name: '{{ inventory_hostname }}-prod'
+          executor: shell
+          run_untagged: false
+          tags:
+            - prod
+
+
+    server-eunice:
+      ansible_host : 10.160.24.246
+
+    server-niloufar:
+      ansible_host : 10.160.33.246
+
+
+    server-fahd:
+      ansible_host : 10.160.24.156

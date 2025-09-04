@@ -1,0 +1,35 @@
+services:
+  mongodb:
+    container_name: mongodb_pdevops
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dev
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - "27017:27017"
+
+    restart: always
+
+  backend-app:
+    image: registry.gitlab.com/coding-devops-project/coding-devops-book
+    build: .
+    container_name: coding-devops-book
+    ports:
+      - 8081:8081
+
+    networks:
+      - backend-app
+      - mongodb
+
+networks:
+  backend-app:
+    driver: bridge
+  mongodb:
+    driver: bridge
+
+volumes:
+  mongodb:
+
+    #test

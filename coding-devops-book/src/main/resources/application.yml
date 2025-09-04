@@ -1,0 +1,14 @@
+
+spring:
+  application:
+    name: coding-devops-book
+  data:
+      mongodb:
+        host: mongodb
+        port: 27017
+        database: pdevops-mongo
+        username: dev
+        password: pass
+        authentication-database: admin
+server:
+  port: 8081

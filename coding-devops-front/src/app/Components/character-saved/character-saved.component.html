@@ -1,0 +1,9 @@
+<div *ngIf="images.length > 0">
+  <h2>Character History</h2>
+  <div *ngFor="let image of images">
+    <img ngSrc="image.url" [alt]="image.name" width="200">
+  </div>
+</div>
+<div *ngIf="images.length === 0">
+  <p>The character history is empty</p>
+</div>

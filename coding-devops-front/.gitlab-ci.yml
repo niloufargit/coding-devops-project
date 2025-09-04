@@ -1,0 +1,69 @@
+image: docker:latest
+services:
+  - name: docker:dind
+    alias: docker
+stages:
+  - dependencies
+  - build
+  - publish
+  - deployment
+
+variables:
+  DOCKER_TLS_CERTDIR: ""
+
+install_dependencies:
+  image: node:18-alpine3.18
+  stage: dependencies
+  script:
+    - npm install
+  only:
+    - main
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+
+
+build_image:
+  image: node:18-alpine3.18
+  stage: build
+  script:
+    - npm link @angular/cli@17.3.2
+    - npm run build
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/dist
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+
+
+push-docker-registry:
+  image: docker:latest
+  stage: publish
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  only:
+    - main
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE .
+    - echo $CI_REGISTRY_IMAGE
+    - docker push $CI_REGISTRY_IMAGE
+
+deploy-job:      # This job runs in the deploy stage.
+  stage: deployment  # It only runs when *both* jobs in the test stage complete successfully.
+  tags:
+    - prod
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  only:
+      - main
+  script:
+    - docker-compose pull
+    - docker-compose up -d

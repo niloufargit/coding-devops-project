@@ -1,0 +1,21 @@
+all:
+  vars:
+    ansible_user : coding
+  hosts:
+    server-riadh:
+      ansible_host : 10.160.32.224
+
+    server-grace:
+      ansible_host : 10.160.32.227
+
+    server-sabiha:
+      ansible_host : 10.160.32.98
+
+    server-eunice:
+      ansible_host : 10.160.24.246
+
+    server-niloufar:
+      ansible_host : 10.160.32.28
+
+    server-fahd:
+      ansible_host : 10.0.2.15

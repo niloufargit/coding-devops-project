@@ -1,0 +1,53 @@
+image: docker:latest
+services:
+  - docker:dind
+
+stages:          # List of stages for jobs, and their order of execution
+  - test
+  - build
+  - publish-image
+  - deploy
+
+variables:
+  DOCKER_TLS_CERTDIR: ""
+
+test-job:
+  image: maven:3.9.6-ibm-semeru-17-focal
+  stage: test
+  script:
+    - pwd
+    - mvn test
+
+build-job:
+  image: maven:3.9.6-ibm-semeru-17-focal
+  stage: build
+  script:
+    - mvn package -DskipTests
+  artifacts:
+    paths:
+      - target/*.jar
+
+push-docker-registry:
+  image: docker:latest
+  stage: publish-image
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  only:
+    - main
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE .
+    - echo $CI_REGISTRY_IMAGE
+    - docker push $CI_REGISTRY_IMAGE
+
+deploy-job:      # This job runs in the deploy stage.
+  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  tags:
+    - prod
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  only:
+    - main
+  script:
+    - docker-compose pull
+    - docker-compose up -d
+

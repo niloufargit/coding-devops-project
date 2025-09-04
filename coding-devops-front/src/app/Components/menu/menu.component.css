@@ -1,0 +1,53 @@
+.form-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 18px;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-select-trigger {
+  color: #007bff;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button {
+  margin-right: 10px;
+}
+
+/* Style pour les input */
+.mat-form-field-appearance-fill.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Style pour les select */
+.mat-form-field-appearance-fill.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-wrapper {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.mat-form-field-appearance-fill.mat-form-field-can-float.mat-form-field-should-float.mat-form-field-invalid .mat-form-field-wrapper {
+  border-color: #f44336;
+}
+
+.mat-form-field-appearance-fill.mat-form-field-can-float.mat-form-field-should-float.mat-form-field-focused .mat-form-field-wrapper {
+  border-color: #007bff;
+}

@@ -1,0 +1,59 @@
+---
+- name: My playbook
+  hosts: all
+  become: true
+  vars:
+    default_runner:
+      - name: '{{ inventory_hostname }}-docker'
+        executor: docker
+        docker_image: 'alpine'
+        run_untagged: true
+        # Docker privileged mode
+        docker_privileged: true
+  roles:
+    - role: geerlingguy.docker
+      vars:
+        docker_install_compose: true
+
+    - role: riemers.gitlab-runner
+      vars:
+        gitlab_runner_registration_token: "{{ enregistry_Key }}"
+        gitlab_runner_runners: "{{ default_runner + runner_prod }}"
+
+
+      tags:
+        - runner
+  tasks:
+    - name: Create user esiee
+      user:
+        name: esiee
+        state: present
+
+    - name: Set up multiple authorized keys
+      ansible.posix.authorized_key:
+        user: esiee
+        state: present
+        key: '{{ item }}'
+      with_file:
+        - public_keys/ssh-key-sabiha.pub
+        - public_keys/ssh-key-niloufar.pub
+        - public_keys/ssh-key-riadh.pub
+        - public_keys/ssh-key-fahd.pub
+        - public_keys/ssh-key-eunice.pub
+        - public_keys/ssh-key-grace.pub
+
+    - name: Allow sudo without password for user esiee
+      lineinfile:
+          path: /etc/sudoers.d/esiee
+          line: 'esiee ALL=(ALL) NOPASSWD: ALL'
+          create: yes
+          validate: '/usr/sbin/visudo -cf %s'
+
+    - name: ensure gitlab runner can launch docker
+      user:
+        name: gitlab-runner
+        state: present
+        groups: docker
+        append: yes
+      tags:
+        - group

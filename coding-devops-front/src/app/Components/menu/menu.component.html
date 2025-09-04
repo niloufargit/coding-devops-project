@@ -1,0 +1,39 @@
+
+
+<div class="form-container">
+  <div class="form-field">
+    <label>Espèce :</label>
+    <mat-form-field>
+      <mat-label>Choisissez une espèce</mat-label>
+      <mat-select placeholder="Espèce" [(ngModel)]="selectedSpeciesOption">
+        <mat-option *ngFor="let option of speciesOptions" [value]="option">{{ option }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="form-field">
+    <label>Classe :</label>
+    <mat-form-field>
+      <mat-label>Choisissez une classe</mat-label>
+      <mat-select placeholder="Classe" [(ngModel)]="selectedClassOption">
+        <mat-option *ngFor="let option of classOptions" [value]="option">{{ option }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="form-field">
+    <label>Métier :</label>
+    <mat-form-field>
+      <mat-label>Choisissez un métier</mat-label>
+      <mat-select placeholder="Métier" [(ngModel)]="selectedJobOption">
+        <mat-option *ngFor="let option of jobOptions" [value]="option">{{ option }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="button-container">
+    <button mat-raised-button color="primary" (click)="navigateToImages()">Character History</button>
+    <button mat-raised-button color="primary" (click)="saveCharacter()">Save</button>
+  </div>
+</div>
+

@@ -1,0 +1,11 @@
+services:
+  nodejs:
+    image: registry.gitlab.com/coding-devops-project/image-generator:latest
+    container_name: image-generator
+    ports:
+      - 3001:3000
+    environment:
+      - NODE-ENV=production
+      - OPENAI_API_KEY=$OPENAI_API_KEY
+    command: npm start
+# test

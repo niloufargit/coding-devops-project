@@ -1,0 +1,9 @@
+services:
+  web:
+    image: registry.gitlab.com/coding-devops-project/coding-devops-front:latest
+    #build: .
+    container_name: coding-devops-web
+    restart: always
+    ports:
+      - 80:4200
+#test

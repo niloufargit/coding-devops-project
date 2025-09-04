@@ -1,0 +1,32 @@
+# Ignore development and test related files
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignore build files
+.next/
+out/
+build/
+dist/
+
+# Ignore dependency directories
+undici-types/
+watchpack/
+web-streams-polyfill/
+webidl-conversions/
+whatwg-url/
+zod/
+
+# Ignore other unnecessary files
+.DS_Store
+
+# Ignore version control files
+.git/
+.gitignore
+
+# Ignore development-specific configuration
+.env.local
+.env
+
+# Ignore Dockerfile
+Dockerfile

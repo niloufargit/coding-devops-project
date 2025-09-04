@@ -1,0 +1,12 @@
+###
+POST http://localhost:8081/book/save
+Content-Type: application/json
+
+{
+  "pathImage": "riadh ggg gg 1254",
+  "description": "jfhds khfkhds hfkjdhs usyduisq usduqsh kjdhq sjhsd qs"
+}
+
+
+###
+POST http://localhost:8081/book/all
